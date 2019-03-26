@@ -12,20 +12,23 @@ class Developpeur{
     private $selectByEmailEquip;
     private $deleteEquip;
     private $setEquipe;
+    private $setComp;
     
     public function __construct($db){
         $this->db = $db;
         $this->insert = $db->prepare("insert into developpeur(nom, prenom, adr, tel, email, mdp, photo, idRole) values (:nom, :prenom, :adr, :tel, :email, :mdp, :photo, :idRole)");    
         $this->connect = $db->prepare("select email, idRole, mdp from developpeur where email=:email");
         $this->select = $db->prepare("select email, idRole, nom, prenom,photo, tel, adr, r.libelle as libellerole from developpeur u, role r where u.idRole = r.id order by nom");
-        $this->selectByEmail = $db->prepare("select email, nom, prenom, idRole from developpeur where email=:email");
+        $this->selectByEmail = $db->prepare("select * from developpeur inner join maitriser on developpeur.email=maitriser.idDeveloppeur where email=:email");
         $this->update = $db->prepare("update developpeur set nom=:nom, prenom=:prenom, idRole=:role where email=:email");
         $this->updateMdp = $db->prepare("update developpeur set mdp=:mdp where email=:email");
         $this->delete = $db->prepare("delete from developpeur where email=:email");
         $this->selectByEmailEquip = $db->prepare("select * from developpeur inner join equipe on developpeur.idEquipe=equipe.id  where developpeur.email=:email");
         $this->deleteEquip = $db->prepare("update developpeur set idEquipe=null where idEquipe=:id;");
         $this->setEquipe = $db->prepare("update developpeur set idEquipe=:idEquipe where email=:email;");
-        }
+        $this->setComp= $db->prepare("insert into maitriser(idOutil, idDeveloppeur) values(:idOutil, :idDeveloppeur)");
+    }
+    
     public function insert($email, $mdp, $role, $nom, $prenom, $tel, $adr, $photo){
         $r = true;
         $this->insert->execute(array(':email'=>$email, ':mdp'=>$mdp, ':idRole'=>$role, ':nom'=>$nom, ':prenom'=>$prenom,':tel'=>$tel,':adr'=>$adr,':photo'=>$photo));
@@ -119,6 +122,15 @@ class Developpeur{
         return $r;
     }
     
+    public function setComp($idOutil, $idDeveloppeur){
+        $r = true;
+        $this->setComp->execute(array(':idOutil'=>$idOutil, ':idDeveloppeur'=>$idDeveloppeur));
+        if ($this->setComp->errorCode()!=0){
+             print_r($this->setComp->errorInfo());  
+             $r=false;
+        }
+        return $r;
+    }
 }
 
 ?>

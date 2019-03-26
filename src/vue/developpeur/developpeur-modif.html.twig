@@ -29,7 +29,16 @@
      {% endfor %}   
      
       </select>
-     
+      <label for="telephone" class="sr-only">Téléphone:</label>
+      <input type="telephone" id="telephone" name="telephone" class="form-control" value='{{form.utilisateur.tel}}' placeholder="Téléphone" required>
+      <label for="adresse" class="sr-only">Adresse:</label>
+      <input type="adresse" id="telephone" name="adresse" class="form-control" value='{{form.utilisateur.adr}}' placeholder="Adresse" required>
+      <input type="file" name="photo" id="photo" class="form-control">
+      <ul class='form-control'>
+          {% for o in form.outil %}
+              <li class='list-unstyled col-10'>{{o.libelle}} Version : {{o.version}}<input type='checkbox' name='outil[]' value='{{o.code}}'></li>
+          {% endfor %}
+      </ul>
       <input type="hidden" name="email" value="{{ form.utilisateur.email }}"/>
       <button class="btn btn-lg btn-primary btn-block" type="submit" name="btModifier">Modifier</button>
      

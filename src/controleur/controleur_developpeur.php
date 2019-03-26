@@ -106,6 +106,8 @@ function actionDeveloppeurWS($twig, $db){
 function actionDeveloppeurAdd($twig, $db){
     $form = array();
     $developpeur = new Developpeur($db);
+    $outil = new Outil($db);
+    $form['outil'] = $outil->select();
     if(isset($_POST['btAjouter'])){
         $email = $_POST['inputEmail'];
         $mdp = $_POST['inputPassword'];
@@ -151,13 +153,15 @@ function actionDeveloppeurAdd($twig, $db){
                 $photo = 'default.jpeg';
             }
         }
-        $exec=$developpeur->insert($email, $mdp, $role, $nom, $prenom, $tel, $adr, $photo);
+        $exec=$developpeur->insert($email, $mdp, $role, $nom, $prenom, $tel, $adresse, $photo);
+        $outils = $_POST['outil'];
         if (!$exec){
             $form['valide'] = false;  
             $form['message'] = 'Problème d\'insertion dans la table développeur '; 
-
         }
-          
+        foreach($outils as $code){
+            $exec = $developpeur->setComp($code, $email);
+        }
     }
     echo $twig->render('developpeur/developpeur-ajout.html.twig', array('form'=>$form));
 }
