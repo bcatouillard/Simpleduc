@@ -11,6 +11,7 @@ class Developpeur{
     private $delete;
     private $selectByEmailEquip;
     private $deleteEquip;
+    private $setEquipe;
     
     public function __construct($db){
         $this->db = $db;
@@ -23,6 +24,7 @@ class Developpeur{
         $this->delete = $db->prepare("delete from developpeur where email=:email");
         $this->selectByEmailEquip = $db->prepare("select * from developpeur inner join equipe on developpeur.idEquipe=equipe.id  where developpeur.email=:email");
         $this->deleteEquip = $db->prepare("update developpeur set idEquipe=null where idEquipe=:id;");
+        $this->setEquipe = $db->prepare("update developpeur set idEquipe=:idEquipe where email=:email;");
         }
     public function insert($email, $mdp, $role, $nom, $prenom, $tel, $adr, $photo){
         $r = true;
@@ -94,7 +96,7 @@ class Developpeur{
             print_r($this->selectByEmailEquip->errorInfo()); 
             
         }
-        return $this->selectByEmailEquip->fetch(); 
+        return $this->selectByEmailEquip->fetchAll(); 
     }
     
     public function deleteEquip($id){
@@ -102,6 +104,16 @@ class Developpeur{
         $this->deleteEquip->execute(array(':id'=>$id));
         if ($this->deleteEquip->errorCode()!=0){
              print_r($this->deleteEquip->errorInfo());  
+             $r=false;
+        }
+        return $r;
+    }
+    
+    public function setEquipe($idEquipe, $email){
+        $r = true;
+        $this->setEquipe->execute(array(':idEquipe'=>$idEquipe, ':email'=>$email));
+        if ($this->setEquipe->errorCode()!=0){
+             print_r($this->setEquipe->errorInfo());  
              $r=false;
         }
         return $r;

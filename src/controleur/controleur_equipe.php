@@ -23,16 +23,24 @@ function actionEquipe($twig, $db){
 
 function actionEquipeAjout($twig, $db){
     $form = array(); 
+    $developpeur = new Developpeur($db);
     if (isset($_POST['btAjouter'])){
-      $inputLibelle = $_POST['inputLibelle'];
-      $inputIdResponsable = $_POST['inputIdResponsable']; 
-      $form['valide'] = true;
-      $equipe = new Equipe($db); 
-      $exec = $equipe->insert($inputLibelle, $inputIdResponsable);
-      if (!$exec){
-        $form['valide'] = false;  
-        $form['message'] = 'Problème d\'insertion dans la table équipe ';  
-      }
+        $inputLibelle = $_POST['inputLibelle'];
+        $inputIdResponsable = $_POST['inputIdResponsable']; 
+        $form['valide'] = true;
+        $equipe = new Equipe($db); 
+        $r = $equipe->selectCount();
+        $id = $r['nb'];
+        $id += 1;
+        $user = $_POST['user'];
+        $exec = $equipe->insert($id, $inputLibelle, $inputIdResponsable);
+        foreach ($user as $email){
+            $exec = $developpeur->setEquipe($id, $email);
+        }
+        if (!$exec){
+          $form['valide'] = false;  
+          $form['message'] = 'Problème d\'insertion dans la table équipe ';  
+        }
     }
     else{
         $developpeur = new Developpeur($db);
@@ -97,6 +105,7 @@ function actionEquipeWS($twig, $db){
 function actionConsEquipe($twig, $db){
     $developpeur = new Developpeur($db);
     $liste['equipe'] = $developpeur->selectByEmailEquip($_SESSION['login']);
+    $liste['dev'] = $developpeur->select();
     echo $twig->render('equipe/consultation-equipe.html.twig', array('liste'=>$liste));
 }
 

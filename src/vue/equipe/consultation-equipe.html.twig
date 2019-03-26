@@ -12,7 +12,16 @@
   <table class="table table-hover table-striped">
       <tr><th>Libellé</th><th>Responsable</th><th></th><th></th></tr>
    {% for e in liste.equipe %}
-          <tr><td>{{e.libelle}}</td><td></td></tr> 
+          <tr>
+              <td>{{e.libelle}}</td>
+              <td>
+                    {% for u in liste.dev %}
+                        {% if e.idResponsable == u.email %}
+                            {{u.nom}} {{u.prenom}}
+                        {% endif %}
+                    {% endfor %}
+              </td>
+          </tr> 
    {% endfor %}    
   </table>
   </div>
