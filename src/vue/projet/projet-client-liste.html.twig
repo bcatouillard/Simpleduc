@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+       
+{% block title %} {{ parent() }} - Liste des projets par client {% endblock %}
+       
+{% block contenu %} <h1>Liste des projets par client</h1>
+    
+    <div class="panel">
+        <div class="panel-heading background-violet">Liste des projets par client - <a href="index.php?page=listeclientprojetpdf"  target="_blank" class="blanc">Format PDF <span class='glyphicon glyphicon-download'></span></a></div>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+            <tr><th>Client</th><th>N° Contrat</th><th>Date Signature</th><th>Libellé Projet</th></tr>
+            {% for u in liste %}
+              <tr>
+                    <td>{{u.nomEntreprise}}</td>
+                    <td>{{u.idContrat}}</td>
+                    <td>{{u.dateSignatureF}}</td>
+                    <td><ul>
+                    <li class='list-unstyled'>{{u.libelle}}</li>
+                    {% for v in form.projet %}
+                        {% if u.idContrat == v.idContrat %}
+                            {% if v.libelle != u.libelle %}
+                                <li class='list-unstyled'>{{v.libelle}}</li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    </ul></td>
+              </tr> 
+            {% endfor %}    
+            </table>
+        </div>
+    </div>   
+    
+{% endblock %}    

@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+{% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
+{% block title %} {{ parent() }} Modification des outils {% endblock %}
+       
+{% block contenu %} 
+
+     {% if form.valide is defined %} 
+        {% if form.valide == true %}
+           <h1 class="alert alert-success" role="alert">{{form.message}}</h1>
+           <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=outil" class="violet">Retourner sur la liste des outils</a></h1>
+        {% else %} 
+           <h1 class="h3 mb-3 font-weight-normal">{{ form.valide.message }}</h1> 
+           <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=outil" class="violet">Retourner sur la liste des outils</a></h1>
+        {% endif %}     
+    {% else %}      
+        {% if form.outil is defined %}
+            {% if form.outil != null %}
+                <h1> Modification d'un outil </h1> 
+                <div class="panel-body">
+                    <form  class="form-signin" action="index.php?page=outilMod" method="post" enctype="application/x-www-form-urlencoded">
+                        <label for="libelle" class="sr-only">Libellé:</label>
+                        <input type="text" id="libelle" name="libelle" class="form-control" value="{{form.outil.libelle}}" placeholder="Saisir un libellé" required autofocus>
+                        <label for="version" class="sr-only">Version:</label>
+                        <input type="text" id="version" name="version" class="form-control" value="{{form.outil.version}}" placeholder="Saisir une version" required autofocus>
+                        <label for="descriptif" class="sr-only">Descriptif:</label>
+                        <input type="text" id="descriptif" name="descriptif" class="form-control" placeholder="Saisir un descriptif" value="{{form.outil.descriptif}}" required autofocus>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" name="btModifier">Modifier</button>
+                        <input type="hidden" id="code" name="code" value="{{form.outil.code}}"/> 
+                    </form>
+                </div>  
+            {% else %}
+                <h1 class="h3 mb-3 font-weight-normal">{{ form.valide.message }}</h1> 
+                <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=outil" class="violet">Retourner sur la liste des outils</a></h1>
+            {% endif %}
+        {% else %}
+            <h1 class="h3 mb-3 font-weight-normal">{{ form.valide.message }}</h1> 
+            <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=outil" class="violet">Retourner sur la liste des outils</a></h1>
+        {% endif %}
+    {% endif %}   
+{% endblock %}

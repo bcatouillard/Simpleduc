@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block title %} {{ parent() }} - Gestion des équipes {% endblock %}
+       
+{% block contenu %} <h1> Gestion des équipes </h1> 
+
+{% if form.valide is defined %} 
+    {% if form.valide == true %}
+       <h1 class="alert alert-success" role="alert">{{ form.message }}</h1>
+       {% else %}  
+       <h1 class="alert alert-danger" role="alert">{{ form.message }}</h1> 
+    {% endif %}         
+{% endif %}         
+    
+<div class="panel">
+  <!-- Default panel contents -->
+  <div class="panel-heading background-violet">Liste des équipes - <a href="index.php?page=equipeajout" class="blanc">Ajouter une équipe</a></div>
+    <form action='index.php?page=equipe' method='post'>
+        <!-- Table -->
+        <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <tr><th>Libellé</th><th>Responsable</th><th></th><th></th></tr>
+         {% if liste is not empty %}
+         {% for e in liste %}
+                <tr>
+                    <td>{{e.libelle}}</td>
+                    <td>{{e.nom}} {{e.prenom}} </td>
+                    <td> <div class="btn-group btn-group-lg"><a href="index.php?page=equipemodif&id={{e.id}}"><span class="glyphicon glyphicon-pencil violet" aria-hidden="true"></span></a></div></td>
+                    <td><input type="checkbox" name="cocher[]" class="check" value="{{u.id}}"/></td>
+                </tr> 
+         {% endfor %}  
+         {% else %}
+            <tr><td>Aucune équipe à afficher</td><td></td><td></td><td></td></tr> 
+         {% endif %}
+        </table>
+        </div>
+        {% if liste is not empty %}
+            <button type='submit' class='btn btn-block btn-danger' name="btSupprimer">Supprimer</button>
+            <button class="btn btn-block" id="btCocher">Tout cocher</button>
+        {% endif %}
+      </form>
+</div>
+
+{% endblock %} 
+
+{% block js %} <script src="js/checked.js"></script> {% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+       
+{% block title %} {{ parent() }} - Gestion des entreprises clientes {% endblock %}
+       
+{% block contenu %} <h1> Gestion des entreprises clientes </h1> 
+
+{% if form.valide is defined %} 
+    {% if form.valide == true %}
+       <h1 class="alert alert-success" role="alert">{{ form.message }}</h1>
+       {% else %}  
+       <h1 class="alert alert-danger" role="alert">{{ form.message }}</h1> 
+    {% endif %}         
+{% endif %}        
+    
+<div class="panel">
+  <!-- Default panel contents -->
+  <div class="panel-heading background-violet">Liste des entreprises clients - <a href="index.php?page=clientAdd" class="blanc">Ajouter une équipe</a></div>
+
+  <!-- Table -->
+  
+  <div class="table-responsive">
+      <form action='index.php?page=client' method='post'>
+  <table class="table table-hover table-striped">
+      <tr><th>Nom</th><th>Adresse</th><th>Téléphone</th><th>Mail Contact</th><th></th><th></th></tr>
+   {% for u in liste %}
+          <tr><td>{{u.nomEntreprise}}</td><td>{{u.adresse}}</td><td>{{u.telephone}}</td><td>{{u.mailContact}}</td>
+              <td> <div class="btn-group btn-group-lg"><a href="index.php?page=clientMod&id={{u.id}}"><span class="glyphicon glyphicon-pencil violet" aria-hidden="true"></span></a></div></td>
+              <td><input type="checkbox" name="cocher[]" class="check" value="{{u.id}}"/></td>
+          </tr> 
+   {% endfor %}    
+  </table>
+  {% if liste is not empty %}
+        <button type='submit' class='btn btn-block btn-danger' name="btSupprimer">Supprimer</button>
+      {% endif %}
+      </form>
+      <button class="btn btn-block" id="btCocher">Tout cocher</button>
+  </div>
+</div>
+
+{% endblock %} 
+
+{% block js %} <script src="js/checked.js"></script> {% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+{% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
+{% block title %} {{ parent() }} Liste des outils {% endblock %}
+       
+{% block contenu %} <h1> Gestion des outils </h1> 
+
+{% if form.valide is defined %} 
+    {% if form.valide == true %}
+       <h1 class="alert alert-success" role="alert">{{ form.message }}</h1>
+       {% else %}  
+       <h1 class="alert alert-danger" role="alert">{{ form.message }}</h1> 
+    {% endif %}         
+{% endif %}         
+    
+<div class="panel">
+  <!-- Default panel contents -->
+  <div class="panel-heading background-violet">Liste des outils - <a href="index.php?page=outilAdd" class="blanc">Ajouter un outil</a></div>
+    <form action='index.php?page=outil' method='post'>
+        <!-- Table -->
+        <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <tr><th>Libellé</th><th>Version</th><th>Descriptif</th><th></th><th></th></tr>
+         {% if liste is not empty %}
+            {% for u in liste %}
+                <tr>
+                   <td>{{u.libelle}}</td>
+                   <td>{{u.version}}</td>
+                   <td>{{u.descriptif}}</td>
+                   <td> <div class="btn-group btn-group-lg"><a href="index.php?page=outilMod&code={{u.code}}"><span class="glyphicon glyphicon-pencil violet" aria-hidden="true"></span></a></div></td>
+                   <td><input type="checkbox" name="cocher[]" class="check" value="{{u.code}}"/></td>
+                </tr> 
+            {% endfor %}   
+        {% else %}
+            <tr><td>Aucun outil à afficher</td><td></td><td></td><td></td></tr>
+        {% endif %}
+        </table>
+        </div>
+        {% if liste is not empty %}
+            <button type='submit' class='btn btn-block btn-danger' name="btSupprimer">Supprimer</button>
+            <button class="btn btn-block" id="btCocher">Tout cocher</button>
+        {% endif %}
+      </form>
+</div>
+
+    
+{% endblock %}
+
+{% block js %} <script src="js/checked.js"></script> {% endblock %}

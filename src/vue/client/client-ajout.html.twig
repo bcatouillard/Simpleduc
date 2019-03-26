@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
+{% block title %} {{ parent() }} - Ajouter une entreprise cliente {% endblock %}
+       
+{% block contenu %} 
+
+{% if form.valide is defined %} 
+    {% if form.valide == true %}
+       <h1 class="alert alert-success" role="alert">Ajout réussie</h1>
+       <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=client" class="violet">Retourner sur la liste des clients</a></h1>
+    {% else %} 
+       <h1 class="h3 mb-3 font-weight-normal">{{ form.valide.message }}</h1> 
+       <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=client" class="violet">Retourner sur la liste des clients</a></h1>
+    {% endif %}     
+{% else %}      
+    <h1> Ajout d'une entreprise </h1> 
+<div class="panel-body">
+  <form  class="form-signin" action="index.php?page=clientAdd" method="post" enctype="application/x-www-form-urlencoded">
+    <label for="inputNom" class="sr-only">Nom de l'entreprise:</label>
+    <input type="text" id="inputNom" name="inputNom" class="form-control" placeholder="Saisir un nom d'entreprise" required autofocus>
+    <label for="inputAdresse" class="sr-only">Adresse:</label>  
+    <input type="text" id="inputAdresse" name="inputAdresse" class="form-control" placeholder="Saisir l'adresse" required autofocus>
+    <label for="inputTel" class="sr-only">Téléphone:</label>  
+    <input type="text" id="inputTel" name="inputTel" class="form-control" placeholder="Saisir le téléphone" required autofocus>
+    <label for="inputMail" class="sr-only">Mail de contact:</label>  
+    <input type="email" id="inputMail" name="inputMail" class="form-control" placeholder="Saisir le mail de contact" required autofocus>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" name="btAjouter">Ajouter</button>
+  </form>
+</div>    
+{% endif %}
+{% endblock %} 

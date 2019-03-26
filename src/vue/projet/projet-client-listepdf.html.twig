@@ -1,0 +1,42 @@
+<page>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<img alt="Brand" src="images/logo.png"/>
+<h1 align='center'>Liste des projets par client</h1>
+<style>
+    table {
+        border-collapse: separate;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+    
+</style>
+
+
+            <table align='center'>
+            <tr>
+                <th align='center'>Client</th>
+                <th align='center'>N° Contrat</th>
+                <th align='center'>Date Signature</th>
+                <th align='center'>Libellé Projet</th>
+            </tr>
+            {% for u in liste %}
+              <tr>
+                    <td align='center'>{{u.nomEntreprise}}</td>
+                    <td align='center'>{{u.idContrat}}</td>
+                    <td align='center'>{{u.dateSignatureF}}</td>
+                    <td align='center'><ul>
+                    <li>{{u.libelle}}</li>
+                    {% for v in form.projet %}
+                        {% if u.idContrat == v.idContrat %}
+                            {% if v.libelle != u.libelle %}
+                                <li>{{v.libelle}}</li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    </ul></td>
+              </tr> 
+            {% endfor %}    
+            </table>
+</page>

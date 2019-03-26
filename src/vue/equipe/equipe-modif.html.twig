@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block title %} {{ parent() }} - Modification d'une équipe {% endblock %}
+       
+{% block contenu %} <h1> Modification d'une équipe </h1> 
+
+{% if form.equipe is defined %} 
+    {% if form.equipe != null %}    
+        <div class="panel-body">
+        <form  class="form-signin" action="index.php?page=equipemodif" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" id="id" name="id" value="{{form.equipe.id}}"/> 
+        <label for="inputDesignation" class="sr-only">Libellé:</label>
+        <input type="text" id="inputLibelle" name="inputLibelle" class="form-control" placeholder="Saisir un libellé" value="{{form.equipe.libelle}}" required autofocus>
+        <label for="inputIdResponsable" class="sr-only">Responsable:</label>
+        <select name="inputIdResponsable" class="form-control">
+        {% if form.equipe.idResponsable == null %} 
+             <option value="non" selected>Responsable non identifié</option> 
+        {% else %}
+             <option value="non">Responsable non identifié</option>
+        {% endif %}      
+        {% for u in form.liste %}
+            {% if form.equipe.idresponsable == u.email %}  
+                <option value="{{ u.email }}" selected>{{ u.nom }} {{ u.prenom }}</option> 
+            {% else %} 
+                <option value="{{ u.email }}">{{ u.nom }} {{ u.prenom }}</option>
+            {% endif %}      
+        {% endfor%}    
+        </select>    
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="btModifier">Ajouter</button>
+        </form>
+        </div> 
+    {% else %}  
+        {% if form.valide == true %}
+            <h1 class="h3 mb-3 font-weight-normal">{{ form.message }} </h1>
+            <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=equipe" class="violet">Retourner sur la liste des équipes</a></h1>
+        {% else %}    
+            <h1 class="alert alert-success" role="alert">{{ form.message }}</h1>
+            <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=equipe" class="violet">Retourner sur la liste des équipes</a></h1>
+        {% endif %} 
+    {% endif %} 
+{% else %} 
+     <h1 class="alert alert-success" role="alert">{{ form.message }}</h1>
+     <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=equipe" class="violet">Retourner sur la liste des équipes</a></h1>
+       
+{% endif %}
+{% endblock %} 

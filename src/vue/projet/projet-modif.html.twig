@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+       
+{% block title %} {{ parent() }} - Modifier un projet {% endblock %}
+{% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
+{% block contenu %}  
+    
+    {% if form.valide is defined %} 
+        {% if form.valide == true %}
+           <h1 class="alert alert-success" role="alert">Modification réussie</h1>
+           <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=projet" class="violet">Retourner sur la liste des projets</a></h1>
+        {% else %} 
+           <h1 class="alert alert-danger">{{ form.valide.message }}</h1> 
+           <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=projet" class="violet">Retourner sur la liste des projets</a></h1>
+        {% endif %}     
+    {% else %} 
+        {% if form.projet is defined %}
+            {% if form.projet != null %}
+                <h1> Modifier un projet </h1> 
+                <div class="panel-body">
+                  <form  class="form-signin" action="index.php?page=projetAdd" method="post" enctype="application/x-www-form-urlencoded">
+                    <label for="inputCode" class="sr-only">Code de projet:</label>
+                    <input type="text" id="inputCode" name="inputCode" class="form-control" placeholder="Saisir un code de projet:" value="{{form.projet.code}}" required autofocus>
+                    <label for="inputLibelle" class="sr-only">Libellé de projet:</label>
+                    <input type="text" id="inputLibelle" name="inputLibelle" class="form-control" placeholder="Saisir un libellé de projet:" value="{{form.projet.libelle}}" required autofocus>
+                    <select name='contrat'>
+                        <option value="">Choisissez un contrat</option>
+                        {% for u in liste %}
+                            {% if u.idContrat == form.projet.idContrat %}
+                                <option value="{{u.idContrat}}" selected>Contrat : {{u.idContrat}} ; Entreprise {{u.nomEntreprise}}</option>
+                            {% else %}
+                                <option value='{{u.idContrat}}'>Contrat : {{u.idContrat}} ; Entreprise {{u.nomEntreprise}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" name="btModifier">Modifier</button>
+                  </form>
+                </div>    
+            {% else %}
+                <h1 class="alert alert-danger">{{ form.valide.message }}</h1> 
+                <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=projet" class="violet">Retourner sur la liste des projets</a></h1>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

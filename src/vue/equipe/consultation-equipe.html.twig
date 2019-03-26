@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block title %} {{ parent() }} - Consultation de mes équipes {% endblock %}
+       
+{% block contenu %} 
+    <h1>Consultation de mes équipes </h1>
+<div class="panel">
+  <!-- Default panel contents -->
+  <div class="panel-heading background-violet">Liste de mes équipes</div>
+  <!-- Table -->
+  <div class="table-responsive">
+  <table class="table table-hover table-striped">
+      <tr><th>Libellé</th><th>Responsable</th><th></th><th></th></tr>
+   {% for e in liste.equipe %}
+          <tr><td>{{e.libelle}}</td><td></td></tr> 
+   {% endfor %}    
+  </table>
+  </div>
+</div>
+    
+    
+{% endblock %}

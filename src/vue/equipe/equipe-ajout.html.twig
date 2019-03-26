@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+{% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
+{% block title %} {{ parent() }} - Ajout d'une équipe {% endblock %}
+       
+{% block contenu %} 
+
+{% if form.valide is defined %} 
+    {% if form.valide == true %}
+       <h1 class="alert alert-success" role="alert">Ajout réussie</h1>
+       <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=equipe" class="violet">Retourner sur la liste des équipes</a></h1>
+    {% else %} 
+       <h1 class="h3 mb-3 font-weight-normal">{{ form.valide.message }}</h1> 
+       <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=equipe" class="violet">Retourner sur la liste des équipes</a></h1>
+    {% endif %}     
+{% else %}      
+    <h1> Ajout d'une équipe </h1> 
+<div class="panel-body">
+  <form  class="form-signin" action="index.php?page=equipeajout" method="post" enctype="application/x-www-form-urlencoded">
+    <label for="inputDesignation" class="sr-only">Libellé:</label>
+    <input type="text" id="inputLibelle" name="inputLibelle" class="form-control" placeholder="Saisir un libellé" required autofocus>
+    <label for="inputIdResponsable" class="sr-only">Responsable:</label>
+    <select name="inputIdResponsable" class="form-control">
+        <option value="non">Responsable non identifié</option> 
+        {% for r in form.liste %}
+            <option value="{{ r.email }}">{{ r.nom }} {{ r.prenom }}</option> 
+        {% endfor%}    
+    </select>  
+    <ul>
+        
+    </ul>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" name="btAjouter">Ajouter</button>
+  </form>
+</div>    
+{% endif %}
+{% endblock %} 

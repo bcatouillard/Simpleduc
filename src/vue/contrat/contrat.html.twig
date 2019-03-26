@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title %} {{ parent() }} Gestion des contrats {% endblock %}
+       
+{% block contenu %} <h1> Gestion des contrats </h1> 
+
+{% if form.valide is defined %} 
+    {% if form.valide == true %}
+       <h1 class="alert alert-success" role="alert">{{ form.message }}</h1>
+       {% else %}  
+       <h1 class="alert alert-danger" role="alert">{{ form.message }}</h1> 
+    {% endif %}         
+{% endif %}        
+    
+<div class="panel">
+  <!-- Default panel contents -->
+  <div class="panel-heading background-violet">Liste des contrats - <a href="index.php?page=contratAdd" class="blanc">Ajouter un contrat</a></div>
+
+  <!-- Table -->
+  <div class="table-responsive">
+      <form action='index.php?page=contrat' method='post'>
+  <table class="table table-hover table-striped">
+      <tr><th>Date Signature</th><th>Délai de production</th><th>Coût Global</th><th>Client</th><th>Echéancier</th><th></th></tr>
+   {% for u in liste %}
+          <tr>
+              <td>{{u.dateSignature}}</td>
+              <td>{{u.delaiProd}} jours</td>
+              <td>{{u.coutGlobal}}€</td>
+              <td>{{u.nomEntreprise}}</td>
+              <td>{{u.libelle}}</td>
+              <td> <div class="btn-group btn-group-lg"><a href="index.php?page=contratMod&id={{u.idContrat}}"><span class="glyphicon glyphicon-pencil violet" aria-hidden="true"></span></a></div></td>
+              <td><input type="checkbox" name="cocher[]" class="check" value="{{u.idContrat}}"/></td>
+          </tr> 
+   {% endfor %}    
+  </table>
+  {% if liste is not empty %}
+        <button type='submit' class='btn btn-block btn-danger' name="btSupprimer">Supprimer</button>
+      {% endif %}
+      </form>
+      <button class="btn btn-block" id="btCocher">Tout cocher</button>
+  </div>
+</div>
+
+{% endblock %} 
+{% block js %} <script src="js/checked.js"></script> {% endblock %}

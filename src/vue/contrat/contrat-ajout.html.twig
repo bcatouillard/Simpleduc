@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+{% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
+{% block title %} {{ parent() }} Ajouter un contrat {% endblock %}
+       
+{% block contenu %} 
+
+{% if form.valide is defined %} 
+    {% if form.valide == true %}
+       <h1 class="alert alert-success" role="alert">Ajout réussie</h1>
+       <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=contrat" class="violet">Retourner sur la liste des contrats</a></h1>
+    {% else %} 
+       <h1 class="h3 mb-3 font-weight-normal">{{ form.valide.message }}</h1> 
+       <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=contrat" class="violet">Retourner sur la liste des contrats</a></h1>
+    {% endif %}     
+{% else %}      
+    <h1> Ajouter un contrat </h1> 
+<div class="panel-body">
+  <form  class="form-signin" action="index.php?page=contratAdd" method="post" enctype="application/x-www-form-urlencoded">
+    <label for="inputDate" class="sr-only">Date de signature</label>
+    <input type="date" id="inputDate" name="inputDate" class="form-control" placeholder="Saisir une date de signature" required autofocus>
+    <label for="inputDelai" class="sr-only">Délai de production:</label>  
+    <input type="text" id="inputDelai" name="inputDelai" class="form-control" placeholder="Saisir le délai de production" required autofocus>
+    <label for="inputCout" class="sr-only">Coût global:</label>  
+    <input type="text" id="inputCout" name="inputCout" class="form-control" placeholder="Saisir le coût global" required autofocus>
+    <select name='echeancier' class="input-group-lg">
+        {% if liste.echeancier is defined %}
+            {% if liste.echeancier is not empty %}
+                {% for u in liste.echeancier %}
+                    <option value='{{u.id}}'>{{u.libelle}}</option>
+                {% endfor %}
+            {% else %}
+                <option value=''>Aucune échéancier</option>
+            {% endif %}
+        {% endif %}
+    </select>
+    <select name='entreprise' class="input-group-lg">
+        {% if liste.entreprise is defined %}
+            {% if liste.entreprise is not empty %}
+                {% for u in liste.entreprise %}
+                    <option value='{{u.id}}'>{{u.nomEntreprise}}</option>
+                {% endfor %}
+            {% else %}
+                <option value=''>Aucune entreprise</option>
+            {% endif %}
+        {% endif %}
+    </select>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" name="btAjouter">Ajouter</button>
+  </form>
+</div>    
+{% endif %}
+
+
+
+{% endblock %} 

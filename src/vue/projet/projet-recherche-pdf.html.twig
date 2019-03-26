@@ -1,0 +1,35 @@
+<page>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<img alt="Brand" src="images/logo.png">
+<h1 align='center'>Projet : {{form.projet.libelleProj}}</h1>
+
+<style>
+    table {
+        border-collapse: separate;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+    
+</style>
+
+<div>
+    <table align='center'>
+        <tr>
+            <th>Client</th>
+            <th>Date Signature</th>
+            <th>Somme des coûts</th>
+        </tr>
+        <tr>
+            <td>{{form.projet.nomEntreprise}}</td>
+            <td>{{form.projet.dateSignature}}</td>
+            {% if form.projet.coutGlobal != 0 %}
+                <td>{{form.projet.coutGlobal}}€</td>
+            {% else %}
+                <td>0€</td> 
+            {% endif %}
+        </tr> 
+    </table>
+</div>
+</page>

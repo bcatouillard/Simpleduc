@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+       
+{% block title %} {{ parent() }} - Modifier une entreprise cliente {% endblock %}
+{% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
+{% block contenu %}
+
+{% if form.client is defined %} 
+    {% if form.client != null %}
+      <form class="form-signin" action="index.php?page=clientMod" method="post" enctype="application/x-www-form-urlencoded">
+        <h1 class="h3 mb-3 font-weight-normal">Modifier une entreprise</h1>
+        <label for="inputNom" class="sr-only">Nom de l'entreprise:</label>
+        <input type="text" id="inputNom" name="inputNom" class="form-control" placeholder="Saisir un nom d'entreprise" value='{{form.client.nomEntreprise}}' required autofocus>
+        <label for="inputAdresse" class="sr-only">Adresse:</label>  
+        <input type="text" id="inputAdresse" name="inputAdresse" class="form-control" placeholder="Saisir l'adresse" value='{{form.client.adresse}}'required autofocus>
+        <label for="inputTel" class="sr-only">Téléphone:</label>  
+        <input type="text" id="inputTel" name="inputTel" class="form-control" placeholder="Saisir le téléphone" value='{{form.client.telephone}}'required autofocus>
+        <label for="inputMail" class="sr-only">Mail de contact:</label>  
+        <input type="email" id="inputMail" name="inputMail" class="form-control" placeholder="Saisir le mail de contact" value='{{form.client.mailContact}}' required autofocus>
+        <input type="hidden" name="inputID" value="{{ form.client.id }}"/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="btModifier">Modifier</button>
+      </form>
+    {% else %} 
+       <h1 class="alert alert-danger" role="alert">{{ form.message }}</h1> 
+       <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=client" class="violet">Retourner sur la liste des entreprises</a></h1>
+    {% endif %}     
+   
+{% else %}  
+     {% if form.valide == true %}
+         <h1 class="alert alert-success">{{ form.message }} </h1>
+         <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=client" class="violet">Retourner sur la liste des entreprises</a></h1>
+     {% else %}    
+      <h1 class="alert alert-danger" role="alert">{{ form.message }}</h1> 
+      <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=client" class="violet">Retourner sur la liste des entreprises</a></h1>
+    {% endif %} 
+{% endif %}      
+
+{% endblock %} 
