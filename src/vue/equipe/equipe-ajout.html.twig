@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
-{% block title %} {{ parent() }} - Ajout d'une équipe {% endblock %}
+{% block title %} {{ parent() }} - Ajouter une équipe {% endblock %}
        
 {% block contenu %} 
 
@@ -25,8 +25,11 @@
             <option value="{{ r.email }}">{{ r.nom }} {{ r.prenom }}</option> 
         {% endfor%}    
     </select>  
-    <ul>
-        
+    <label for="inputDev" class="h5 mb-5 font-weight-normal">Membres de l'équipe : </label>
+    <ul class="form-control">
+        {% for u in form.liste %}
+            <li class="list-unstyled col-10">{{u.nom}} {{u.prenom}} <input type="checkbox" value="{{u.email}}" name='user[]'></li>
+        {% endfor %}
     </ul>
     <button class="btn btn-lg btn-primary btn-block" type="submit" name="btAjouter">Ajouter</button>
   </form>
