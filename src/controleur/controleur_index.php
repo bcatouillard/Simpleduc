@@ -134,6 +134,10 @@ function actionMaintenance($twig){
 }
 
 function actionCompte($twig, $db){
-    echo $twig->render('accueil/compte.html.twig', array());
+    $form = array();
+    $developpeur = new Developpeur($db);
+    $form['utilisateur'] = $developpeur->selectByEmail($_SESSION['login']);
+    $form['utilisateur']['photo'] = '../src/private/'.$form['utilisateur']['photo'];
+    echo $twig->render('accueil/compte.html.twig', array('form'=>$form));
 }
 ?>

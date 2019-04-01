@@ -1,6 +1,6 @@
 <?php
   $config['serveur']='localhost';
-  $config['login'] = 'root';
+  $config['login'] = 'symfony';
   $config['mdp'] ='btsinfo';
   $config['bd'] = 'bdgestionprojets';
 ?>

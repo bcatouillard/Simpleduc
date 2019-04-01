@@ -18,6 +18,8 @@ $lesPages['developpeurAdd'] = "actionDeveloppeurAdd;1";
 $lesPages['developpeurajout'] = "actionDeveloppeurAjout;1";
 $lesPages['developpeurmodif'] = "actionDeveloppeurModif;1";
 $lesPages['developpeurws'] = "actionDeveloppeurWS;0";
+$lesPages['tachepardev'] = "actionTacheparDev;1";
+$lesPages['tachepardevpdf'] = "actionTacheparDevPDF;1";
 
 // Panel équipe
 $lesPages['equipe'] = "actionEquipe;1";

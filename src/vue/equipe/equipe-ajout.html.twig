@@ -19,20 +19,28 @@
     <label for="inputDesignation" class="sr-only">Libellé:</label>
     <input type="text" id="inputLibelle" name="inputLibelle" class="form-control" placeholder="Saisir un libellé" required autofocus>
     <label for="inputIdResponsable" class="sr-only">Responsable:</label>
-    <select name="inputIdResponsable" class="form-control">
-        <option value="non">Responsable non identifié</option> 
-        {% for r in form.liste %}
-            <option value="{{ r.email }}">{{ r.nom }} {{ r.prenom }}</option> 
-        {% endfor%}    
-    </select>  
-    <label for="inputDev" class="h5 mb-5 font-weight-normal">Membres de l'équipe : </label>
-    <ul class="form-control">
-        {% for u in form.liste %}
-            <li class="list-unstyled col-10">{{u.nom}} {{u.prenom}} <input type="checkbox" value="{{u.email}}" name='user[]'></li>
-        {% endfor %}
-    </ul>
+    <div class="row">
+            <div class="col-lg-5">
+                <div class="panel-heading background-violet">Liste des Developpeurs</div>
+                <div class="dropzone">
+                    {% for u in form.liste %}
+                        <div id="draggable" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)">
+                            <input type="hidden" id="idDev" name="idDev" value="{{u.id}}">
+                            <p>{{u.nom}} {{u.prenom}} </p>
+                        </div>
+                    {%endfor%}
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="panel-heading background-violet">Developpeurs à ajouter</div>
+                <div class="dropzone">
+                </div>
+        </div>
+    </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit" name="btAjouter">Ajouter</button>
   </form>
 </div>    
 {% endif %}
 {% endblock %} 
+
+{% block js %} <script src="js/dragdrop.js"></script> {% endblock %}

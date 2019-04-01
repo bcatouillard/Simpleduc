@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+{% block style %}<link href="css/style-signin.css" rel="stylesheet"> {% endblock %}
+{% block title %} {{ parent() }} - Une tâche par Développeur {% endblock %}
+       
+{% block contenu %} <h1 class="h3 mb-3 font-weight-normal">Tâches de chaque développeur</h1>
+    {% if form.developpeur is defined %}
+        {% if form.developpeur != null %}
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <tr>
+                        <th>Nom Développeur</th>
+                        <th>Libellé Projet</th>
+                        <th>Nombre d'heures</th>
+                        <th>Descriptif</th>
+                    </tr>
+                        {% for u in form.developpeur %}
+                        <tr>
+                            <td>{{u.nom}} {{u.prenom}}</td>
+                            <td>{{u.libelle}}</td>
+                            <td>{{u.nbHeures}}</td>
+                            <td>{{u.descriptif}}</td>
+                        </tr> 
+                        {% endfor %}
+                </table>
+                <a href='index.php?page=tachepardevpdf' target='_blank'>Télécharger au format pdf <span class='glyphicon glyphicon-download'></span></a>
+                <hr/>
+                <h4 align='center' class='alert alert-info'><a href='index.php?page=projet'>Retourner à la liste des projets</a></h4>
+            </div>
+        {% else %}
+            <h1 class="alert alert-danger">{{ form.message }} </h1>
+            <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=projet" class="violet">Retourner sur la liste des projets</a></h1>
+        {% endif %}
+    {% else %}
+        <h1 class="alert alert-danger">{{ form.message }} </h1>
+        <h1 class="h3 mb-3 font-weight-normal"><a href="index.php?page=projet" class="violet">Retourner sur la liste des projets</a></h1>
+    {% endif %}
+{% endblock %}

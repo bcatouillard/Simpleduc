@@ -6,8 +6,9 @@
 
 {% if form.utilisateur is defined %} 
     {% if form.utilisateur != null %}
-      <form class="form-signin" action="index.php?page=developpeurmodif" method="post" enctype="application/x-www-form-urlencoded">
+      <form class="form-signin" action="index.php?page=developpeurmodif" method="post" enctype="multipart/form-data">
       <h1 class="h3 mb-3 font-weight-normal">Modifier un développeur</h1>
+      <img src="{{form.utilisateur.photo}}"/>
       <label for="inputEmail" class="sr-only">Email:</label>
       <label for="inputPassword" class="sr-only"> Modifier le mot de passe:</label>
       <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Modifier le mot de passe:">
@@ -36,9 +37,13 @@
       <input type="file" name="photo" id="photo" class="form-control">
       <ul class='form-control'>
           {% for o in form.outil %}
+              {% if form.utilisateur.idOutil == o.code %}
+                <li class='list-unstyled col-10'>{{o.libelle}} Version : {{o.version}}<input type='checkbox' name='outil[]' value='{{o.code}}' checked></li>
+              {% else %}
               <li class='list-unstyled col-10'>{{o.libelle}} Version : {{o.version}}<input type='checkbox' name='outil[]' value='{{o.code}}'></li>
+              {% endif %}
           {% endfor %}
-      </ul>
+        </ul>
       <input type="hidden" name="email" value="{{ form.utilisateur.email }}"/>
       <button class="btn btn-lg btn-primary btn-block" type="submit" name="btModifier">Modifier</button>
      
@@ -59,4 +64,6 @@
 {% endif %}      
 
 {% endblock %} 
+
+{% block js %} <script src="js/dragdrop.js"></script> {% endblock %}
 

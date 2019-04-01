@@ -2,10 +2,30 @@
 
 {% block title %} {{ parent() }} Mon Compte {% endblock %}
        
-{% block contenu %} <h1> Mon compte </h1> 
+{% block contenu %} 
 
+    {% if form.utilisateur is defined %}
+        {% if form.utilisateur != null %}
+            <h1 class="h1 mb-3 font-weight-normal">{{form.utilisateur.prenom}} {{form.utilisateur.nom}}</h1> 
+            <form action="index.php?page=compte" method="post" enctype="multipart/form-data">
+                <div>
+                    <img src="{{form.utilisateur.photo}}" class="img-circle"/>
+                    <input type="file" name="photo">
+                </div>
 
-
-
-
+                <div>
+                    Votre adresse mail est : {{form.utilisateur.email}}
+                </div>
+                
+                <div>
+                    
+                </div>
+                
+                <div>
+                    <input type="password" name="passwd1">
+                    <input type="password" name="passwd2">
+                </div>
+            </form>
+        {% endif %}
+    {% endif %}
 {% endblock %} 

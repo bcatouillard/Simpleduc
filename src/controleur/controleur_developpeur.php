@@ -33,11 +33,14 @@ function actionDeveloppeur($twig, $db){
 
 function actionDeveloppeurModif($twig, $db){
  $form = array();   
+ $outil = new Outil($db);
+ $form['outil'] = $outil->select();
  if(isset($_GET['id'])){
     $developpeur = new Developpeur($db);
     $unDeveloppeur = $developpeur->selectByEmail($_GET['id']);  
     if ($unDeveloppeur!=null){
       $form['utilisateur'] = $unDeveloppeur;
+      $form['utilisateur']['photo'] = '../src/private/'.$form['utilisateur']['photo'];
       $role = new Role($db);
       $liste = $role->select();
       $form['roles']=$liste;
@@ -132,7 +135,7 @@ function actionDeveloppeurAdd($twig, $db){
             if(!empty($_FILES['photo']['name'])){  
                 $extensions_ok = array('png', 'jpg', 'jpeg');
                 $taille_max = 500000;
-                $dest_dossier = '/var/www/html/Simpleduc/src/private/';
+                $dest_dossier = '../src/private/';
                 if( !in_array( substr(strrchr($_FILES['photo']['name'], '.'), 1), $extensions_ok ) ){
                     echo 'Veuillez sélectionner un fichier de type png, gif ou jpg !';
                 }
@@ -149,11 +152,15 @@ function actionDeveloppeurAdd($twig, $db){
                 }
             }
             else{
-                $dest_dossier = '/var/www/html/Simpleduc/src/private/';
+                $dest_dossier = '../src/private/';
                 $photo = 'default.jpeg';
             }
         }
-        $exec=$developpeur->insert($email, $mdp, $role, $nom, $prenom, $tel, $adresse, $photo);
+        else{
+            $dest_dossier = '../src/private/';
+            $photo = 'default.jpeg';
+        }
+        $exec=$developpeur->insert($email, password_hash($mdp, PASSWORD_DEFAULT), $role, $nom, $prenom, $tel, $adresse, $photo);
         $outils = $_POST['outil'];
         if (!$exec){
             $form['valide'] = false;  
@@ -164,6 +171,29 @@ function actionDeveloppeurAdd($twig, $db){
         }
     }
     echo $twig->render('developpeur/developpeur-ajout.html.twig', array('form'=>$form));
+}
+
+function actionTacheparDev($twig, $db){
+    $form = array();
+    $developpeur = new Developpeur($db);
+    $form['developpeur'] = $developpeur->selectTache();
+    echo $twig->render('developpeur/tache-chaquedev.html.twig', array('form'=>$form));
+}
+
+function actionTacheparDevPDF($twig, $db){
+    $form = array();
+    $developpeur = new Developpeur($db);
+    $form['developpeur'] = $developpeur->selectTache();
+    $html = $twig->render('developpeur/tache-chaquedevpdf.html.twig', array('form'=>$form));
+        try { 
+            ob_end_clean(); 
+            $html2pdf = new \Spipu\Html2Pdf\Html2Pdf('P', 'A4', 'fr'); 
+            $html2pdf->writeHTML($html); 
+            $html2pdf->output('tache_dev.pdf'); 
+        } 
+        catch (Html2PdfException $e) {
+            echo 'erreur '.$e;  
+        }
 }
 ?>
 

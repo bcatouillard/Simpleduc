@@ -13,13 +13,14 @@ class Developpeur{
     private $deleteEquip;
     private $setEquipe;
     private $setComp;
+    private $selectTache;
     
     public function __construct($db){
         $this->db = $db;
         $this->insert = $db->prepare("insert into developpeur(nom, prenom, adr, tel, email, mdp, photo, idRole) values (:nom, :prenom, :adr, :tel, :email, :mdp, :photo, :idRole)");    
         $this->connect = $db->prepare("select email, idRole, mdp from developpeur where email=:email");
         $this->select = $db->prepare("select email, idRole, nom, prenom,photo, tel, adr, r.libelle as libellerole from developpeur u, role r where u.idRole = r.id order by nom");
-        $this->selectByEmail = $db->prepare("select * from developpeur inner join maitriser on developpeur.email=maitriser.idDeveloppeur where email=:email");
+        $this->selectByEmail = $db->prepare("select * from developpeur left outer join maitriser on developpeur.email=maitriser.idDeveloppeur where email=:email");
         $this->update = $db->prepare("update developpeur set nom=:nom, prenom=:prenom, idRole=:role where email=:email");
         $this->updateMdp = $db->prepare("update developpeur set mdp=:mdp where email=:email");
         $this->delete = $db->prepare("delete from developpeur where email=:email");
@@ -27,6 +28,8 @@ class Developpeur{
         $this->deleteEquip = $db->prepare("update developpeur set idEquipe=null where idEquipe=:id;");
         $this->setEquipe = $db->prepare("update developpeur set idEquipe=:idEquipe where email=:email;");
         $this->setComp= $db->prepare("insert into maitriser(idOutil, idDeveloppeur) values(:idOutil, :idDeveloppeur)");
+        $this->selectTache=$db->prepare("select * from developpeur left outer join developper on developpeur.email=developper.idDeveloppeur left outer join tache on developper.idTache=tache.code");
+        
     }
     
     public function insert($email, $mdp, $role, $nom, $prenom, $tel, $adr, $photo){
@@ -130,6 +133,14 @@ class Developpeur{
              $r=false;
         }
         return $r;
+    }
+    
+    public function selectTache(){
+        $this->selectTache->execute();
+        if ($this->selectTache->errorCode()!=0){
+             print_r($this->selectTache->errorInfo());  
+        }
+        return $this->selectTache->fetchAll();
     }
 }
 

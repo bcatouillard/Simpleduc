@@ -1,0 +1,36 @@
+<page>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<img alt="Brand" src="images/logo.png">
+<h1 align='center'>Liste des tâches par Développeur</h1>
+
+<style>
+    table {
+        border-collapse: separate;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+    
+</style>
+
+<div>
+    <table align='center'>
+        <tr>
+            <th>Nom Développeur</th>
+            <th>Libellé Projet</th>
+            <th>Nombre d'heures</th>
+            <th>Descriptif</th>
+        </tr>
+        {% for u in form.developpeur %}
+            <tr>
+                <td>{{u.nom}} {{u.prenom}}</td>
+                <td>{{u.libelle}}</td>
+                <td>{{u.nbHeures}}</td>
+                <td>{{u.descriptif}}</td>
+            </tr> 
+        {% endfor %}
+    </table>
+</div>
+
+</page>
